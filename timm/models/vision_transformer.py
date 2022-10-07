@@ -323,7 +323,7 @@ class VisionTransformer(nn.Module):
     """
 
     def __init__(
-            self, img_size=224, patch_size=16, in_chans=3, num_classes=1000, global_pool='token',
+            self, img_size=(1, 65, 37000), patch_size=(65, 200), num_classes=2, global_pool='token',
             embed_dim=768, depth=12, num_heads=12, mlp_ratio=4., qkv_bias=True, init_values=None,
             class_token=True, no_embed_class=False, fc_norm=None, drop_rate=0., attn_drop_rate=0., drop_path_rate=0.,
             weight_init='', embed_layer=PatchEmbed, norm_layer=None, act_layer=None, block_fn=Block):
@@ -331,7 +331,6 @@ class VisionTransformer(nn.Module):
         Args:
             img_size (int, tuple): input image size
             patch_size (int, tuple): patch size
-            in_chans (int): number of input channels
             num_classes (int): number of classes for classification head
             global_pool (str): type of global pooling for final sequence (default: 'token')
             embed_dim (int): embedding dimension
@@ -365,7 +364,7 @@ class VisionTransformer(nn.Module):
         self.grad_checkpointing = False
 
         self.patch_embed = embed_layer(
-            img_size=img_size, patch_size=patch_size, in_chans=in_chans, embed_dim=embed_dim)
+            img_size=img_size, patch_size=patch_size, embed_dim=embed_dim)
         num_patches = self.patch_embed.num_patches
 
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim)) if class_token else None
