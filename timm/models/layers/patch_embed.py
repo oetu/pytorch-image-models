@@ -32,6 +32,6 @@ class PatchEmbed(nn.Module):
         _assert(W == self.img_size[2], f"Input image width ({W}) doesn't match model ({self.img_size[2]}).")
         x = self.proj(x)
         if self.flatten:
-            x = x.flatten(2).transpose(1, 2)  # BCHW -> BNC
+            x = x.flatten(2).transpose(1, 2)  # BDH'W' -> BND
         x = self.norm(x)
         return x
